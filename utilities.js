@@ -89,6 +89,7 @@ export async function searchFacebook(params){
             console.log('GET data not found.');
         }
     }
+    browser.close();
     console.log(`${postArray.length} posts retrieved from ${params.location}!`)
     return postArray;
 }
