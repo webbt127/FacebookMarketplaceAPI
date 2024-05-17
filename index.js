@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true })); //Body-Parser
 app.use(morgan("combined"));
 
 //app.get("/query/:city/:keyword", (req, res) => {
-app.get("/query", (req, res) => {
+app.get("/query/fbm", (req, res) => {
     //searchFacebook(req.params).then(allPosts => {
     searchFacebook(req.query).then(allPosts => {
         res.json(allPosts);
