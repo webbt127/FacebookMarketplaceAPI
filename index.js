@@ -13,14 +13,18 @@ app.use(morgan("combined"));
 
 //app.get("/query/:city/:keyword", (req, res) => {
 app.get("/query/fbm", (req, res) => {
-    //searchFacebook(req.params).then(allPosts => {
+    const authHeader = req.headers['x-rapidapi-proxy-secret'];
+    if (authHeader === "123") {
     searchFacebook(req.query).then(allPosts => {
         res.json(allPosts);
     }).catch(error => {
         console.error('Error fetching posts:', error);
         res.json();
     });
-});
+    } else {
+        console.log('Header not found');
+        res.status(403).send('Access Denied');
+}});
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
