@@ -90,6 +90,7 @@ export async function searchFacebook(params){
         }
     }
     browser.close();
+    console.log(`${params.posts} posts requested for ${params.location}`)
     console.log(`${postArray.length} posts retrieved from ${params.location}!`)
     return postArray;
 }
