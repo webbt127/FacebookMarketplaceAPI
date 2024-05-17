@@ -7,16 +7,25 @@ import puppeteer from "puppeteer";
 const app = express();
 const port = 3000;
 
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function searchFacebook(params){
     var url = `https://www.facebook.com/marketplace/search/?query=${params.keyword}&exact=false`;
     const browser = await puppeteer.launch({ headless: false }); // set headless to false to see the browser
     const page = await browser.newPage();
     await page.goto(url);
+    const closeButtonSelector = 'div[aria-label="Close"][role="button"]';
+    await page.waitForSelector(closeButtonSelector);
+    await page.click(closeButtonSelector);
+    for (let i = 0; i < 20; i++) {
+        await page.keyboard.press('ArrowDown');
+        await page.keyboard.press('PageDown');
+        await wait(450);
+    };
     const marketplaceGrid = await page.$('div[aria-label="Collection of Marketplace items"]');
-    //await page.$$('div.x1i10hfl').click();
-    
     const posts = await marketplaceGrid.$$('div.x3ct3a4'); // Replace 'div.post-class' with the actual selector for posts
-    //page.close();
     let postArray = [];
 
     for (let post of posts) {
@@ -45,6 +54,7 @@ async function searchFacebook(params){
             console.log('GET data not found.');
         }
     }
+    console.log(postArray.length)
     return postArray;
 }
 
