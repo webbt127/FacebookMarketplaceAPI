@@ -9,9 +9,8 @@ const port = 3000;
 
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true })); //Body-Parser
-app.use(morgan("combined"));
+app.use(morgan("tiny"));
 
-//app.get("/query/:city/:keyword", (req, res) => {
 app.get("/query/fbm", (req, res) => {
     const authHeader = req.headers['x-rapidapi-proxy-secret'];
     if (authHeader === "123") {
