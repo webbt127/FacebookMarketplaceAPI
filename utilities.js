@@ -31,7 +31,7 @@ export async function searchFacebook(params){
     });
     url += `&exact=false`;
     console.log(url);
-    const browser = await puppeteer.launch({ headless: runHeadless });
+    const browser = await puppeteer.launch({ headless: runHeadless, executablePath: '/usr/bin/chromium-browser' });
     const page = await browser.newPage();
     await page.goto(url);
     const closeButtonSelector = 'div[aria-label="Close"][role="button"]';
