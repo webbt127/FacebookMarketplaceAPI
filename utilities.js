@@ -1,5 +1,4 @@
 import puppeteer from "puppeteer";
-import prettier from 'prettier';
 
 function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -35,9 +34,6 @@ export async function searchFacebook(params){
     const browser = await puppeteer.launch({ headless: runHeadless, executablePath: '/usr/bin/chromium-browser', args: ['--no-sandbox'] });
     const page = await browser.newPage();
     await page.goto(url);
-    const htmlContent = await page.content();
-    const prettyHtml = await prettier.format(htmlContent, { parser: 'html' });
-    console.log(prettyHtml);
     const closeButtonSelector = 'div[aria-label="Close"][role="button"]';
     //await page.waitForSelector(closeButtonSelector);
     //await page.click(closeButtonSelector);
@@ -75,7 +71,7 @@ export async function searchFacebook(params){
         await page.keyboard.press('ArrowDown');
         await page.keyboard.press('PageDown');
     };
-    const marketplaceGrid = await page.$('div[aria-label="Collection of Marketplace items"]');
+    const marketplaceGrid = await page.$('div[aria-label*="Collection"]');
     const posts = await marketplaceGrid.$$('a');
     let postArray = [];
 
