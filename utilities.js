@@ -34,6 +34,8 @@ export async function searchFacebook(params){
     const browser = await puppeteer.launch({ headless: runHeadless, executablePath: '/usr/bin/chromium-browser', args: ['--no-sandbox'] });
     const page = await browser.newPage();
     await page.goto(url);
+    const htmlContent = await page.content();
+    console.log(htmlContent);
     const closeButtonSelector = 'div[aria-label="Close"][role="button"]';
     //await page.waitForSelector(closeButtonSelector);
     //await page.click(closeButtonSelector);
