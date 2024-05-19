@@ -19,7 +19,7 @@ function getRadiusBox(radius) {
 }
 
 export async function searchFacebook(params){
-    var runHeadless = false;
+    var runHeadless = true;
     if (!params.posts) {params.posts = 20};
     console.log(`${params.posts} posts requested for ${params.location}`);
     var url = 'https://www.facebook.com/marketplace/search/?';
@@ -31,7 +31,7 @@ export async function searchFacebook(params){
     });
     url += `&exact=false`;
     console.log(url);
-    const browser = await puppeteer.launch({ headless: runHeadless }); // set headless to false to see the browser
+    const browser = await puppeteer.launch({ headless: runHeadless });
     const page = await browser.newPage();
     await page.goto(url);
     const closeButtonSelector = 'div[aria-label="Close"][role="button"]';
@@ -40,13 +40,13 @@ export async function searchFacebook(params){
     page.setViewport({width: 800, height: 1000});
     
     if (params.location) {
-        const locationButtonSelector = 'div[aria-label*="40 mi"][role="button"]';
+        const locationButtonSelector = 'div[aria-label*="0 mi"][role="button"]';
         await page.waitForSelector(locationButtonSelector);
         await page.click(locationButtonSelector);
-        await page.waitForSelector('input[aria-label="Location"]'); // Replace with your specific selector
-        await page.focus('input[aria-label="Location"]'); // Focus on the element
-        await page.keyboard.press('Backspace'); // Clear any existing value
-        await page.type('input[aria-label="Location"]', params.location); // Type the new value
+        await page.waitForSelector('input[aria-label="Location"]');
+        await page.focus('input[aria-label="Location"]');
+        await page.keyboard.press('Backspace');
+        await page.type('input[aria-label="Location"]', params.location);
         await page.waitForSelector('li[id^="jsc"]');
         await page.keyboard.press('ArrowDown');
         await page.keyboard.press('Enter');
@@ -57,7 +57,7 @@ export async function searchFacebook(params){
             await page.click(radiusButtonSelector);
             const radiusBox = getRadiusBox(params.radius);
             const radiusBoxSelector = `div[id$="${radiusBox}"]`;
-            await page.waitForSelector(radiusBoxSelector); // Replace with your specific selector
+            await page.waitForSelector(radiusBoxSelector);
             await page.click(radiusBoxSelector);
         }
         const applyButtonSelector = 'div[aria-label="Apply"][role="button"]';
@@ -72,29 +72,27 @@ export async function searchFacebook(params){
         await page.keyboard.press('PageDown');
     };
     const marketplaceGrid = await page.$('div[aria-label="Collection of Marketplace items"]');
-    const posts = await marketplaceGrid.$$('div.x3ct3a4'); // Replace 'div.post-class' with the actual selector for posts
+    const posts = await marketplaceGrid.$$('div.x3ct3a4');
     let postArray = [];
 
     for (let post of posts) {
-        // Query the anchor tag within the post
-        const urlTag = await post.$('a'); // Selects the first anchor tag within the post
+        const urlTag = await post.$('a'); 
         const imgTag = await post.$$('img');
-        const locTag = await post.$$('span.xuxw1ft');
+        const locationTag = await post.$$('span.xuxw1ft');
         const priceTag = await post.$$('span.x1s688f');
-        const descTag = await post.$$('span.x1n2onr6');
-        if (urlTag && imgTag && locTag && priceTag && descTag) {
-            // Extract the href attribute
+        const titleTag = await post.$$('span.x1n2onr6');
+        if (urlTag && imgTag && locationTag && priceTag && titleTag) {
             const postUrl = await (await urlTag.getProperty('href')).jsonValue();
             const postImg = await (await imgTag[0].getProperty('src')).jsonValue();
             const postPrice = await (await priceTag[0].getProperty('innerText')).jsonValue();
-            const postDesc = await (await descTag[0].getProperty('innerText')).jsonValue();
-            const postLocation = await (await locTag[0].getProperty('innerText')).jsonValue();
+            const postTitle = await (await titleTag[0].getProperty('innerText')).jsonValue();
+            const postLocation = await (await locationTag[0].getProperty('innerText')).jsonValue();
             const postData = {
+                title: postTitle,
                 url: postUrl,
                 img: postImg,
                 price: postPrice,
-                desc: postDesc,
-                loc: postLocation
+                location: postLocation
             }
             postArray.push(postData);
         } else {

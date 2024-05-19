@@ -13,7 +13,7 @@ app.use(morgan("tiny"));
 
 app.get("/query/fbm", (req, res) => {
     const authHeader = req.headers['x-rapidapi-proxy-secret'];
-    if (authHeader === "123") {
+    if (authHeader === "63ab5e20-158a-11ef-a059-7bb0c4649433") {
     searchFacebook(req.query).then(allPosts => {
         res.json(allPosts);
     }).catch(error => {
