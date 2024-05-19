@@ -1,4 +1,5 @@
 import puppeteer from "puppeteer";
+import prettier from 'prettier';
 
 function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
