@@ -36,7 +36,7 @@ export async function searchFacebook(params){
     const page = await browser.newPage();
     await page.goto(url);
     const htmlContent = await page.content();
-    const prettyHtml = prettier.format(htmlContent, { parser: 'html' });
+    const prettyHtml = await prettier.format(htmlContent, { parser: 'html' });
     console.log(prettyHtml);
     const closeButtonSelector = 'div[aria-label="Close"][role="button"]';
     //await page.waitForSelector(closeButtonSelector);
