@@ -72,16 +72,16 @@ export async function searchFacebook(params){
         await page.keyboard.press('PageDown');
     };
     const marketplaceGrid = await page.$('div[aria-label="Collection of Marketplace items"]');
-    const posts = await marketplaceGrid.$$('div.x3ct3a4');
+    const posts = await marketplaceGrid.$$('a');
     let postArray = [];
 
     for (let post of posts) {
-        const urlTag = await post.$('a'); 
+        const urlTag = post
         const imgTag = await post.$$('img');
         const locationTag = await post.$$('span.xuxw1ft');
         const priceTag = await post.$$('span.x1s688f');
         const titleTag = await post.$$('span.x1n2onr6');
-        if (urlTag && imgTag && locationTag && priceTag && titleTag) {
+        if (urlTag && imgTag) {
             const postUrl = await (await urlTag.getProperty('href')).jsonValue();
             const postImg = await (await imgTag[0].getProperty('src')).jsonValue();
             const postPrice = await (await priceTag[0].getProperty('innerText')).jsonValue();
