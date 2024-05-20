@@ -34,10 +34,13 @@ export async function searchFacebook(params){
     const browser = await puppeteer.launch({ headless: runHeadless, args: ['--no-sandbox'] });
     //const browser = await puppeteer.launch({ headless: runHeadless});
     const page = await browser.newPage();
+    const userAgent = new UserAgent({ deviceCategory: 'desktop' });
+    const randomUserAgent = userAgent.toString();
+    await page.setUserAgent(randomUserAgent);
     await page.goto(url);
     const closeButtonSelector = 'div[aria-label="Close"][role="button"]';
-    //await page.waitForSelector(closeButtonSelector);
-    //await page.click(closeButtonSelector);
+    await page.waitForSelector(closeButtonSelector);
+    await page.click(closeButtonSelector);
     page.setViewport({width: 800, height: 1000});
     
     if (params.location) {
