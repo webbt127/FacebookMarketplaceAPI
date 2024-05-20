@@ -34,8 +34,8 @@ export async function searchFacebook(params){
     const browser = await puppeteer.launch({ headless: runHeadless, args: ['--no-sandbox'] });
     //const browser = await puppeteer.launch({ headless: runHeadless});
     const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.52 Safari/537.36');
-    await page.goto(url);
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36');
+    await page.goto(url);      
     const closeButtonSelector = 'div[aria-label="Close"][role="button"]';
     //await page.waitForSelector(closeButtonSelector);
     //await page.click(closeButtonSelector);
@@ -73,7 +73,8 @@ export async function searchFacebook(params){
         await page.keyboard.press('ArrowDown');
         await page.keyboard.press('PageDown');
     };
-    const marketplaceGrid = await page.$('div[aria-label*="items"]');
+    const marketplaceGrid = await page.$('body > div > div > div > div > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2)');
+    console.log(marketplaceGrid)
     const posts = await marketplaceGrid.$$('a');
     let postArray = [];
 
