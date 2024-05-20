@@ -41,7 +41,8 @@ export async function searchFacebook(params){
 		'accept-encoding': 'gzip, deflate, br', 
 		'accept-language': 'en-US,en;q=0.9,en;q=0.8' 
 	}); 
-    await page.goto(url);      
+    await page.goto(url);
+    await page.screenshot({ path: 'image.png', fullPage: true });      
     const closeButtonSelector = 'div[aria-label="Close"][role="button"]';
     //await page.waitForSelector(closeButtonSelector);
     //await page.click(closeButtonSelector);
