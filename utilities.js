@@ -32,6 +32,7 @@ export async function searchFacebook(params){
     url += `&exact=false`;
     console.log(url);
     const browser = await puppeteer.launch({ headless: runHeadless, executablePath: '/usr/bin/chromium-browser', args: ['--no-sandbox'] });
+    //const browser = await puppeteer.launch({ headless: runHeadless});
     const page = await browser.newPage();
     await page.goto(url);
     const closeButtonSelector = 'div[aria-label="Close"][role="button"]';
@@ -71,7 +72,7 @@ export async function searchFacebook(params){
         await page.keyboard.press('ArrowDown');
         await page.keyboard.press('PageDown');
     };
-    const marketplaceGrid = await page.$('div[aria-label*="Collection"]');
+    const marketplaceGrid = await page.$('div[role="main"]');
     const posts = await marketplaceGrid.$$('a');
     let postArray = [];
 
