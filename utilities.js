@@ -84,17 +84,16 @@ export async function searchFacebook(params){
         const titleTag = await post.$$('span.x1n2onr6');
         if (urlTag && imgTag) {
             const postUrl = await (await urlTag.getProperty('href')).jsonValue();
-            console.log(imgTag);
-            const postImg = await (await imgTag[0].getProperty('src')).jsonValue();
-            const postPrice = await (await priceTag[0].getProperty('innerText')).jsonValue();
-            const postTitle = await (await titleTag[0].getProperty('innerText')).jsonValue();
-            const postLocation = await (await locationTag[0].getProperty('innerText')).jsonValue();
+            //const postImg = await (await imgTag[0].getProperty('src')).jsonValue();
+            //const postPrice = await (await priceTag[0].getProperty('innerText')).jsonValue();
+            //const postTitle = await (await titleTag[0].getProperty('innerText')).jsonValue();
+            //const postLocation = await (await locationTag[0].getProperty('innerText')).jsonValue();
             const postData = {
-                title: postTitle,
+                //title: postTitle,
                 url: postUrl,
-                img: postImg,
-                price: postPrice,
-                location: postLocation
+                //img: postImg,
+                //price: postPrice,
+                //location: postLocation
             }
             postArray.push(postData);
         } else {
