@@ -25,6 +25,10 @@ app.get("/query/fbm", (req, res) => {
         res.status(403).send('Access Denied');
 }});
 
+app.get("/ping", (req, res) => {
+    res.status(200).send('OK');
+});
+
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
