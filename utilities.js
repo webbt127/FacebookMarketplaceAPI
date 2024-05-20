@@ -19,7 +19,7 @@ function getRadiusBox(radius) {
 }
 
 export async function searchFacebook(params){
-    var runHeadless = true;
+    var runHeadless = false;
     if (!params.posts) {params.posts = 20};
     console.log(`${params.posts} posts requested for ${params.location}`);
     var url = 'https://www.facebook.com/marketplace/search/?';
@@ -31,7 +31,7 @@ export async function searchFacebook(params){
     });
     url += `&exact=false`;
     console.log(url);
-    const browser = await puppeteer.launch({ headless: runHeadless, executablePath: '/usr/bin/chromium-browser', args: ['--no-sandbox'] });
+    const browser = await puppeteer.launch({ headless: runHeadless, args: ['--no-sandbox'] });
     //const browser = await puppeteer.launch({ headless: runHeadless});
     const page = await browser.newPage();
     await page.goto(url);
