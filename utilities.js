@@ -37,8 +37,8 @@ export async function searchFacebook(params){
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36');
     await page.goto(url);
     const closeButtonSelector = 'div[aria-label="Close"][role="button"]';
-    await page.waitForSelector(closeButtonSelector);
-    await page.click(closeButtonSelector);
+    //await page.waitForSelector(closeButtonSelector);
+    //await page.click(closeButtonSelector);
     page.setViewport({width: 800, height: 1000});
     
     if (params.location) {
