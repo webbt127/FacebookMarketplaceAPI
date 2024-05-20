@@ -64,6 +64,7 @@ export async function searchFacebook(params){
         await page.keyboard.press('ArrowDown');
         await page.keyboard.press('PageDown');
     };
+    console.log(await page.content())
     const marketplaceGrid = await page.$('body > div > div > div > div > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(2)');
     const posts = await marketplaceGrid.$$('a');
     let postArray = [];
