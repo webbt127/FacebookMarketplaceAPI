@@ -31,12 +31,12 @@ export async function searchFacebook(params){
     });
     url += `&exact=false`;
     console.log(url);
-    const browser = await puppeteer.launch({ headless: runHeadless, executablePath: '/usr/bin/chromium-browser', args: ['--no-sandbox'] });
+    const browser = await puppeteer.launch({ headless: runHeadless});//, executablePath: '/usr/bin/chromium-browser', args: ['--no-sandbox'] });
     const page = await browser.newPage();
     await page.goto(url);
     const closeButtonSelector = 'div[aria-label="Close"][role="button"]';
-    //await page.waitForSelector(closeButtonSelector);
-    //await page.click(closeButtonSelector);
+    await page.waitForSelector(closeButtonSelector);
+    await page.click(closeButtonSelector);
     page.setViewport({width: 800, height: 1000});
     
     if (params.location) {
