@@ -1,5 +1,4 @@
 import puppeteer from "puppeteer";
-import UserAgent from "puppeteer";
 
 function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -35,9 +34,7 @@ export async function searchFacebook(params){
     const browser = await puppeteer.launch({ headless: runHeadless, args: ['--no-sandbox'] });
     //const browser = await puppeteer.launch({ headless: runHeadless});
     const page = await browser.newPage();
-    const userAgent = new UserAgent({ deviceCategory: 'desktop' });
-    const randomUserAgent = userAgent.toString();
-    await page.setUserAgent(randomUserAgent);
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36');
     await page.goto(url);
     const closeButtonSelector = 'div[aria-label="Close"][role="button"]';
     await page.waitForSelector(closeButtonSelector);
