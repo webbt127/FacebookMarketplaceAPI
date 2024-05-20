@@ -72,7 +72,7 @@ export async function searchFacebook(params){
         await page.keyboard.press('ArrowDown');
         await page.keyboard.press('PageDown');
     };
-    const marketplaceGrid = await page.$('div[role="main"]');
+    const marketplaceGrid = await page.$('div[aria-label*="items"]');
     const posts = await marketplaceGrid.$$('a');
     let postArray = [];
 
@@ -84,16 +84,16 @@ export async function searchFacebook(params){
         const titleTag = await post.$$('span.x1n2onr6');
         if (urlTag && imgTag) {
             const postUrl = await (await urlTag.getProperty('href')).jsonValue();
-            //const postImg = await (await imgTag[0].getProperty('src')).jsonValue();
-            //const postPrice = await (await priceTag[0].getProperty('innerText')).jsonValue();
-            //const postTitle = await (await titleTag[0].getProperty('innerText')).jsonValue();
-            //const postLocation = await (await locationTag[0].getProperty('innerText')).jsonValue();
+            const postImg = await (await imgTag[0].getProperty('src')).jsonValue();
+            const postPrice = await (await priceTag[0].getProperty('innerText')).jsonValue();
+            const postTitle = await (await titleTag[0].getProperty('innerText')).jsonValue();
+            const postLocation = await (await locationTag[0].getProperty('innerText')).jsonValue();
             const postData = {
-                //title: postTitle,
+                title: postTitle,
                 url: postUrl,
-                //img: postImg,
-                //price: postPrice,
-                //location: postLocation
+                img: postImg,
+                price: postPrice,
+                location: postLocation
             }
             postArray.push(postData);
         } else {
