@@ -20,7 +20,7 @@ function getRadiusBox(radius) {
 }
 
 export async function searchFacebook(params){
-    var runHeadless = true;
+    var runHeadless = false;
     if (!params.posts) {params.posts = 20};
     console.log(`${params.posts} posts requested for ${params.location}`);
     var url = 'https://www.facebook.com/marketplace/search/?';
