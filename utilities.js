@@ -1,5 +1,10 @@
-import puppeteer from "puppeteer-extra";
-import pluginStealth from "puppeteer-extra-plugin-stealth";
+import puppeteer from 'puppeteer-extra';
+import pluginStealth from 'puppeteer-extra-plugin-stealth';
+
+puppeteer.use(pluginStealth());
+
+const BROWSERLESS_API_KEY = 'QY1bLnfbgEnNDC1a330c23309012a8a1c7585a241d'; // Replace with your Browserless API key
+const BROWSERLESS_WS_ENDPOINT = `wss://chrome.browserless.io?token=${BROWSERLESS_API_KEY}`;
 
 function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -19,7 +24,7 @@ function getRadiusBox(radius) {
     else {return 10}
 }
 
-export async function searchFacebook(params){
+export async function searchFacebook(params) {
     var runHeadless = true;
     if (!params.posts) {params.posts = 20};
     console.log(`${params.posts} posts requested for ${params.location}`);
@@ -32,10 +37,14 @@ export async function searchFacebook(params){
     });
     url += `&exact=false`;
     console.log(url);
-    const browser = await puppeteer.launch({ headless: runHeadless, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
-    //const browser = await puppeteer.launch({ headless: runHeadless});
+
+    const browser = await puppeteer.connect({
+        browserWSEndpoint: BROWSERLESS_WS_ENDPOINT,
+        headless: runHeadless,
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+
     const page = await browser.newPage();
-    puppeteer.use(pluginStealth())
     await page.goto(url);
     await page.screenshot({ path: 'image.png', fullPage: true });      
     const closeButtonSelector = 'div[aria-label="Close"][role="button"]';
