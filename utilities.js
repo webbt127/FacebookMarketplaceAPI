@@ -1,4 +1,4 @@
-import puppeteer from "puppeteer-core";
+import puppeteer from "puppeteer-extra";
 import pluginStealth from "puppeteer-extra-plugin-stealth";
 
 function wait(ms) {
@@ -32,10 +32,8 @@ export async function searchFacebook(params){
     });
     url += `&exact=false`;
     console.log(url);
-    //const browser = await puppeteer.launch({ headless: runHeadless, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+    const browser = await puppeteer.launch({ headless: runHeadless, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
     //const browser = await puppeteer.launch({ headless: runHeadless});
-    //const page = await browser.newPage();
-    const browser = await puppeteer.connect({browserWSEndpoint: 'ws://localhost:3000?token=6R0W53R135510'});
     const page = await browser.newPage();
     puppeteer.use(pluginStealth())
     await page.goto(url);
